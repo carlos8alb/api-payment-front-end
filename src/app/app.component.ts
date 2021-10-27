@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { TestService } from './services/test.service';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +10,23 @@ import { TestService } from './services/test.service';
 export class AppComponent implements OnInit, AfterContentInit {
 
   loader;
+  form: FormGroup;
+  items = [
+    { id: 1, title: 'item 1', description: 'description 1', quantity: 1, unit_price: 20 },
+    { id: 2, title: 'item 2', description: 'description 2', quantity: 1, unit_price: 30 },
+  ];
 
   constructor(
-    private testService: TestService
-  ) { }
+    private testService: TestService,
+    private formBuilder: FormBuilder
+  ) {
 
+    this.form = this.formBuilder.group({
+      items: new FormArray([])
+    });
+
+    this.addCheckboxes();
+  }
 
   ngOnInit(): void {
     this.loader = true;
@@ -23,15 +36,23 @@ export class AppComponent implements OnInit, AfterContentInit {
     this.loader = false;
   }
 
+  get itemsFormArray(): any {
+    return this.form.controls.items as FormArray;
+  }
+
+  private addCheckboxes(): any {
+    this.items.forEach(() => this.itemsFormArray.push(new FormControl(false)));
+  }
+
   async createPreference(): Promise<any> {
     try {
       this.loader = true;
 
+      // const selectedItems = this.form.value.items
+      // .map((checked, i) => checked ? this.items[i].id : null)
+      // .filter(v => v !== null);
       const body = {
-        items: [
-          { id: 1, title: 'Alumbrado', description: 'Alumbrado Agosto 2020', quantity: 1, unit_price: 150 },
-          { id: 2, title: 'Barrido', description: 'Barrido Agosto 2020', quantity: 1, unit_price: 350 }
-        ],
+        items: this.items,
         payer: {
           name: 'Juan',
           surname: 'Perez',

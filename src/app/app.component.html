@@ -1,2 +1,21 @@
+<!-- <form [formGroup]="form">
+    <input type="text" placeholder="id" formControlName='id'>
+    <input type="text" placeholder="title" formControlName='title'>
+    <input type="text" placeholder="description" formControlName='description'>
+    <input type="number" placeholder="quantity" formControlName='quantity'>
+    <input type="number" placeholder="unit_price" formControlName='unit_price'>
+    <button *ngIf="!loader" (click)="createPreference()">Crear preferencia</button>
+</form> -->
+
+<!-- <div *ngIf="!loader" class="container">
+    <form [formGroup]="form" (ngSubmit)="createPreference()">
+        <label class="form-control" formArrayName="items" *ngFor="let item of itemsFormArray.controls; let i = index">
+        <input type="checkbox" [formControlName]="i"> {{items[i].title}} - {{items[i].description}} - ${{items[i].unit_price}}
+
+      </label>
+        <button class="btn btn-primary">Crear preferencia</button>
+    </form>
+</div> -->
+
 <button *ngIf="!loader" (click)="createPreference()">Crear preferencia</button>
 <app-loader *ngIf="loader"></app-loader>
